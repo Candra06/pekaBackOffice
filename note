@@ -1,0 +1,11 @@
+fitur
+	- call expert(konsultasi kepada expert by WA) -> ada master data expert(BE) foto, nama, deskripsi, nomor wa
+	- Screening tools -> isi quisioner 
+	- Catatan -> KAlender nanti bisa di mark (tgl awal kemoterapi & mengingatkan kapan jadwal selanjutnya) dan input catatan
+	- Artikel-> ada gambar thumbnail dan detail (like, komen, share berupa link dan mengarah ke aplikasi android)
+	- Profil saya
+	- pengguna -> Admin dan user (fullname, nickname, telepon, email, password)
+	- Admin bisa liat catetan dan tanggal si user
+	- di tanggal munculin notif di hari H
+	- upload playstore (sdah ada)
+	- upload hosting (sdah ada)
