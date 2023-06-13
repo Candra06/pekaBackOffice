@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\QuisionareController;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\ExpertController;
 use App\Http\Controllers\NoteUserController;
@@ -27,4 +28,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::resource('expert', ExpertController::class);
     Route::resource('note', NoteUserController::class);
     Route::resource('kuesioner', QuestionController::class);
+    Route::post('/updateChoice/{idQuestion}', [QuestionController::class, 'updateChoice']);
+    Route::post('/addChoice/{idQuestion}', [QuestionController::class, 'addChoice']);
+    Route::delete('/deleteChoice/{id}', [QuestionController::class, 'deleteChoice']);
 });

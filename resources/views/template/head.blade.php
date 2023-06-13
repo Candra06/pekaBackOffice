@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{url('/')}}/assets/images/favicon.png">
-    <title>Prediksi Nilai UAS</title>
+    <title>Peka Back Office</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{url('/')}}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{url('/')}}/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />

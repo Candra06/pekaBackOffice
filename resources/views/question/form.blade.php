@@ -35,7 +35,7 @@
                     </div>
                     <div class="card-body">
                         <form
-                            action="{{ $data->type == 'add' ? route('kuesioner.store') : route('kuesioner.update', $expert) }}"
+                            action="{{ $data->type == 'add' ? route('kuesioner.store') : route('kuesioner.update', $data->id) }}"
                             method="POST" enctype="multipart/form-data">
                             @if ($data->type == 'edit')
                                 @method('PUT')
@@ -45,9 +45,9 @@
                                 <div class="row p-t-20">
                                     <div class="col-md-12">
                                         <div class="form-group">
-
                                             <label class="control-label">Pertanyaan</label>
-                                            <textarea class="form-control @error('question') is-invalid @enderror" name="question" required placeholder="Pertanyaan">{{ $data->question }}</textarea>
+                                            <textarea class="form-control @error('question') is-invalid @enderror" name="question" required
+                                                placeholder="Pertanyaan">{{ $data->question }}</textarea>
 
                                             @error('question')
                                                 <span class="invalid-feedback" role="alert">
@@ -83,8 +83,8 @@
                                         <div class="form-group">
                                             <label class="control-label">Nilai</label>
                                             <input required type="number" name="score"
-                                                class="form-control @error('score') is-invalid @enderror" placeholder="Nilai"
-                                                value="{{ $data->score }}">
+                                                class="form-control @error('score') is-invalid @enderror"
+                                                placeholder="Nilai" value="{{ $data->score }}">
                                             @error('score')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -96,24 +96,45 @@
                                 </div>
                                 <div id="answered" style="display:none;">
                                     <h3>Pilihan Jawaban</h3>
-                                    <div class="row" id="choices">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Jawaban</label>
-                                                <input type="text" name="answer[]"
-                                                    class="form-control @error('answer') is-invalid @enderror"
-                                                    placeholder="Jawaban">
+                                    @if ($data->type == 'edit')
+                                        <div class="row" id="choices">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Jawaban</label>
+                                                    <input type="text" name="answer[]"
+                                                        class="form-control @error('answer') is-invalid @enderror"
+                                                        placeholder="Jawaban">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Nilai</label>
+                                                    <input type="text" name="score_answer[]"
+                                                        class="form-control @error('score_answer') is-invalid @enderror"
+                                                        placeholder="Nilai">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Nilai</label>
-                                                <input type="text" name="score_answer[]"
-                                                    class="form-control @error('score_answer') is-invalid @enderror"
-                                                    placeholder="Nilai">
+                                    @else
+                                        <div class="row" id="choices">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Jawaban</label>
+                                                    <input type="text" name="answer[]"
+                                                        class="form-control @error('answer') is-invalid @enderror"
+                                                        placeholder="Jawaban">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Nilai</label>
+                                                    <input type="text" name="score_answer[]"
+                                                        class="form-control @error('score_answer') is-invalid @enderror"
+                                                        placeholder="Nilai">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                     <div class="row mt-3 mb-3 button-add">
                                         <div class="col-md-2">
                                             <button id="add-choice" type="button" class="btn btn-sm btn-success"><span
@@ -137,6 +158,17 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script type="text/javascript">
+            $(function() {
+                $("#type_question").live("change", function() {
+                    console.log("seledte");
+                    // do whatever you need to do
+
+                    // you want the element to lose focus immediately
+                    // this is key to get this working.
+                    $('#type_question').blur();
+                });
+            });
+
             function showDiv(select) {
                 if (select.value == "Choice") {
                     document.getElementById('answered').style.display = "block";

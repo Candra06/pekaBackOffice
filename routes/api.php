@@ -20,10 +20,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
+Route::get('sendListener', [UserController::class, 'testSend']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('updateProfil', [UserController::class, 'update']);
     Route::get('expert', [MasterController::class, 'listExpert']);
+    Route::get('dashboard', [UserController::class, 'getDataDashboard']);
     Route::get('userData', [UserController::class, 'getUser']);
     Route::post('note', [NoteUserController::class, 'add']);
     Route::get('deleteNote/{id}', [NoteUserController::class, 'delete']);

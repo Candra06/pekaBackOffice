@@ -44,7 +44,7 @@
                                     <th>Nama</th>
                                     <th>Tanggal</th>
                                     <th>Catatan</th>
-                                    <th>Aksi</th>
+                                
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,20 +54,7 @@
                                         <td>{{ $dt->name }}</td>
                                         <td>{{ $dt->date }}</td>
                                         <td>{{ $dt->note }}</td>
-                                        <td>
-                                            <a href="{{ url('/note/' . $dt->id . '/edit') }}" class="btn btn-info"><i
-                                                    class="mdi mdi-pencil"></i>Edit</a>
-                                            <a href="#" data-id="{{ $dt->id }}"
-                                                class="btn btn-danger sa-params"><i class="fa fa-trash-o">
-                                                    <form action="{{ route('note.destroy', $dt->id) }}"
-                                                        id="delete{{ $dt->id }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                </i>
-                                                Hapus
-                                            </a>
-                                        </td>
+                                      
                                     </tr>
                                 @endforeach
                             </tbody>

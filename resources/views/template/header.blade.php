@@ -5,7 +5,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
-    <title>Prediksi Nilai UAS</title>
+    <title>Peka Back Office</title>
     <link href="{{ url('/') }}/frontend/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/frontend/css/style.css" rel="stylesheet">
     <script src="{{ url('/') }}/frontend/js/jquery.min.js"></script>

@@ -35,6 +35,7 @@ class QuestionController extends Controller
                 'type' => 'add',
                 'question' => '',
                 'type_question' => '',
+                'id' => '',
                 'score' => '',
 
             ];
@@ -94,9 +95,23 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function edit(Question $question)
+    public function edit(Question $kuesioner)
     {
-        //
+
+        try {
+            $data = (object)[
+                'type' => 'edit',
+                'question' => $kuesioner->question,
+                'id' => $kuesioner->id,
+                'type_question' => $kuesioner->type,
+                'score' => $kuesioner->score,
+            ];
+            $choice = QuestionChoice::where('question_id', $kuesioner->id)->get();
+
+            return view('question.edit', compact('data', 'choice'));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**
@@ -106,9 +121,19 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(Request $request, Question $kuesioner)
     {
-        //
+
+        try {
+            Question::where('id', $kuesioner->id)->update([
+                'question' => $request->question,
+                'type' => $request->type_question,
+                'score' => $request->score,
+            ]);
+            return redirect('/kuesioner')->with('success', 'Berhasil mengubah pilihan');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -120,5 +145,44 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         //
+    }
+
+    public function updateChoice(Request $request, $idQuestion)
+    {
+        try {
+            QuestionChoice::where('id', $idQuestion)->update([
+                'label' => $request->answer,
+                'score' => $request->score_answer
+            ]);
+            return redirect('/kuesioner/' . $request->id . '/edit')->with('success', 'Berhasil mengubah pilihan');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addChoice(Request $request, $idQuestion)
+    {
+
+        try {
+            QuestionChoice::create([
+                'question_id' => $idQuestion,
+                'label' => $request->answer,
+                'score' => $request->score_answer
+            ]);
+            return redirect('/kuesioner/' . $idQuestion . '/edit')->with('success', 'Berhasil mengubah pilihan');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function deleteChoice($id)
+    {
+
+        try {
+            QuestionChoice::where('id', $id)->delete();
+            return back()->with('success', 'Berhasil Menghapus pilihan');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
