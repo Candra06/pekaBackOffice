@@ -57,7 +57,31 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Kategori Screening</label>
+                                            <select required name="category_id" 
+                                                class="form-control @error('category_id') is-invalid @enderror"
+                                                id="category_id">
+                                                <option value="">Pilih Kategori</option>
+                                                @foreach ($category as $ct)
+                                                    <option value="{{ $ct->id }}"
+                                                        {{ $data->category_id == $ct->id ? 'selected' : '' }}>
+                                                        {{ $ct->category_name }}
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+
+                                            @error('category_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label">Tipe Jawaban</label>
                                             <select required name="type_question" onchange="showDiv(this)"
@@ -67,6 +91,9 @@
                                                 <option value="Choice"
                                                     {{ $data->type_question == 'Choice' ? 'selected' : '' }}>Pilihan Ganda
                                                 </option>
+                                                <option value="Multiple"
+                                                {{ $data->type_question == 'Multiple' ? 'selected' : '' }}>Multiple Select
+                                            </option>
                                                 <option value="Essai"
                                                     {{ $data->type_question == 'Essai' ? 'selected' : '' }}>Isian</option>
                                             </select>
@@ -79,7 +106,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label">Nilai</label>
                                             <input required type="number" name="score"
@@ -170,7 +197,7 @@
             });
 
             function showDiv(select) {
-                if (select.value == "Choice") {
+                if (select.value == "Choice" || select.value == 'Multiple') {
                     document.getElementById('answered').style.display = "block";
                 } else {
                     document.getElementById('answered').style.display = "none";

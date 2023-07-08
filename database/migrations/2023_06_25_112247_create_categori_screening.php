@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuestion extends Migration
+class CreateCategoriScreening extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateQuestion extends Migration
      */
     public function up()
     {
-        Schema::create('question', function (Blueprint $table) {
+        Schema::create('categori_screening', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('question');
-            $table->enum('type', ['Choice', 'Essai', 'Multiple']);
-            $table->integer('score')->default(0);
+            $table->string('category_name');
+            $table->enum('isDecission', ['true', 'false']);
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateQuestion extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('question');
+        Schema::dropIfExists('categori_screening');
     }
 }

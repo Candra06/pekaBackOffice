@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuestion extends Migration
+class CreateScreeningDecission extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateQuestion extends Migration
      */
     public function up()
     {
-        Schema::create('question', function (Blueprint $table) {
+        Schema::create('screening_decission', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('question');
-            $table->enum('type', ['Choice', 'Essai', 'Multiple']);
-            $table->integer('score')->default(0);
+            $table->integer('category_id')->unsigned();
+            $table->string('condition_name');
+            $table->text('condition_maker');
             $table->timestamps();
+            $table->foreign('category_id')->references('id')->on('categori_screening');
         });
     }
 
@@ -29,6 +30,6 @@ class CreateQuestion extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('question');
+        Schema::dropIfExists('screening_decission');
     }
 }

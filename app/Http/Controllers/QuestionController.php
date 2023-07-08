@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoriScreening;
 use App\Models\Question;
 use App\Models\QuestionChoice;
 use Illuminate\Http\Request;
@@ -34,12 +35,14 @@ class QuestionController extends Controller
             $data = (object)[
                 'type' => 'add',
                 'question' => '',
+                'category_id' => '0',
                 'type_question' => '',
                 'id' => '',
                 'score' => '',
 
             ];
-            return view('question.form', compact('data'));
+            $category = CategoriScreening::all();
+            return view('question.form', compact('data', 'category'));
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -57,11 +60,12 @@ class QuestionController extends Controller
         try {
             $question = Question::create([
                 'question' => $request->question,
+                'category_id' => $request->category_id,
                 'type' => $request->type_question,
                 'score' => $request->score,
             ]);
             if ($question) {
-                if ($request->type_question == 'Choice' && count($request->answer) >= 1 && count($request->score_answer) >= 1) {
+                if (($request->type_question == 'Choice' || $request->type_question == 'Multiple') && count($request->answer) >= 1 && count($request->score_answer) >= 1) {
                     for ($i = 0; $i < count($request->answer); $i++) {
                         QuestionChoice::create([
                             'label' => $request->answer[$i],
@@ -103,12 +107,13 @@ class QuestionController extends Controller
                 'type' => 'edit',
                 'question' => $kuesioner->question,
                 'id' => $kuesioner->id,
+                'category_id' => $kuesioner->category_id,
                 'type_question' => $kuesioner->type,
                 'score' => $kuesioner->score,
             ];
             $choice = QuestionChoice::where('question_id', $kuesioner->id)->get();
-
-            return view('question.edit', compact('data', 'choice'));
+            $category = CategoriScreening::all();
+            return view('question.edit', compact('data', 'choice', 'category'));
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -128,6 +133,7 @@ class QuestionController extends Controller
             Question::where('id', $kuesioner->id)->update([
                 'question' => $request->question,
                 'type' => $request->type_question,
+                'category_id' => $request->category_id,
                 'score' => $request->score,
             ]);
             return redirect('/kuesioner')->with('success', 'Berhasil mengubah pilihan');

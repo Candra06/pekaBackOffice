@@ -34,7 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('artikel/{id}', [MasterController::class, 'detailArtikel']);
     Route::post('komen', [MasterController::class, 'postKomen']);
     Route::post('like/{id}', [MasterController::class, 'likeArtikel']);
-    Route::get('listQuestion', [QuisionareController::class, 'listQuestion']);
+    Route::get('listQuestion/{id}', [QuisionareController::class, 'listQuestion']);
+    Route::get('listCategory', [QuisionareController::class, 'listCategory']);
     Route::post('submitScreening', [QuisionareController::class, 'saveScreening']);
     // Route::resource('products', ProductController::class);
 });

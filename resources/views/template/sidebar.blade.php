@@ -23,14 +23,20 @@
                 <li> <a class="waves-effect waves-dark" href="{{ url('/artikel') }}" aria-expanded="false"><i
                             class="fa fa-book"></i><span class="hide-menu">Artikel</span></a>
                 </li>
+                <li> <a class="waves-effect waves-dark" href="{{ url('/users') }}" aria-expanded="false"><i
+                            class="mdi mdi-account"></i><span class="hide-menu">Data Pengguna</span></a>
+                </li>
                 <li> <a class="waves-effect waves-dark" href="{{ url('/note') }}" aria-expanded="false"><i
                             class="mdi mdi-widgets"></i><span class="hide-menu">Catatan Pengguna</span></a>
                 </li>
                 <li> <a class="waves-effect waves-dark" href="{{ url('/expert') }}" aria-expanded="false"><i
                             class="mdi mdi-account-box"></i><span class="hide-menu">Expert</span></a>
                 </li>
+                 <li> <a class="waves-effect waves-dark" href="{{ url('/category') }}" aria-expanded="false"><i
+                            class="fa fa-book"></i><span class="hide-menu">Kategori Screening</span></a>
+                </li>
                 <li> <a class="waves-effect waves-dark" href="{{ url('/kuesioner') }}" aria-expanded="false"><i
-                            class="fa fa-book"></i><span class="hide-menu">Kuesioner</span></a>
+                            class="fa fa-book"></i><span class="hide-menu">Screening</span></a>
                 </li>
             </ul>
         </nav>
