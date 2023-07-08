@@ -62,7 +62,7 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'code' => '400',
-                'error' => 'internal server error', 'message' => $th,
+                'message' => 'internal server error', 'message' => $th,
             ], 403);
         }
     }
@@ -98,14 +98,13 @@ class UserController extends Controller
                 } else {
                     return response()->json([
                         'code' => 401,
-                        'data' => 'Password Salah',
-
+                        'message' => 'Password Salah',
                     ]);
                 }
             } else {
                 return response()->json([
                     'code' => 401,
-                    'data' => 'Username tidak terdaftar',
+                    'message' => 'Username tidak terdaftar',
 
                 ]);
             }

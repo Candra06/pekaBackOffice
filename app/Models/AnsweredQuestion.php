@@ -9,5 +9,5 @@ class AnsweredQuestion extends Model
 {
     use HasFactory;
     protected $table = 'answered_questions';
-    protected $fillable = ['total_score', 'user_id'];
+    protected $fillable = ['total_score', 'user_id','category_id', 'result_decission'];
 }

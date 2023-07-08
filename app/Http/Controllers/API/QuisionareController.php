@@ -43,16 +43,25 @@ class QuisionareController extends Controller
 
     public function saveScreening(Request $request)
     {
+        // return $request;
         try {
+            $category = CategoriScreening::where('id', $request->category_id)->first();
+            $totalScore = 0;
+            foreach ($request->answer as $key => $value) {
+                $totalScore += $value['score'];
+            }
             $answer = AnsweredQuestion::create([
                 'user_id' => Auth()->user()->id,
-                'total_score' => 0,
+                'total_score' => $totalScore,
+                'category_id' => $request->category_id,
+                'result_decission' => $category->isDecission ? $request->result_decission : "-",
             ]);
             foreach ($request->answer as $key => $value) {
                 AnsweredQuestionDetail::create([
                     'answered_id' => $answer->id,
                     'question_id' => $value['question_id'],
                     'answer' => $value['answer'],
+                    'score' => $value['score'],
                 ]);
             }
             return response()->json([
