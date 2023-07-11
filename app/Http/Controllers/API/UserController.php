@@ -38,15 +38,24 @@ class UserController extends Controller
     }
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users',
-            'phone' => 'required',
-            'password' => 'required',
-            'fcm_token' => 'required',
-        ]);
         // return $request;
         try {
+            $rules = [
+                'name' => 'required',
+                'email' => 'required',
+                'phone' => 'required',
+                'password' => 'required',
+                'fcm_token' => 'required',
+            ];
+
+            $request->validate($rules);
+            $user = User::where('email', $request->email)->first();
+            if ($user) {
+                return response()->json([
+                    'code' => '401',
+                    'message' => "Email sudah terdaftar",
+                ], 200);
+            }
             User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -60,6 +69,7 @@ class UserController extends Controller
                 'message' => "Pendaftaran berhasil",
             ], 200);
         } catch (\Throwable $th) {
+
             return response()->json([
                 'code' => '400',
                 'message' => 'internal server error', 'message' => $th,
