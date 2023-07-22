@@ -9,5 +9,5 @@ class Artikel extends Model
 {
     use HasFactory;
     protected $table = 'artikel';
-    protected $fillable = ['title', 'thumbnail', 'content', 'total_like', 'total_komen'];
+    protected $fillable = ['title', 'thumbnail', 'content', 'total_like', 'total_komen', 'created_by'];
 }

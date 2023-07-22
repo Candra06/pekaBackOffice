@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnsweredQuestion;
+use App\Models\AnsweredQuestionDetail;
 use App\Models\Artikel;
 use App\Models\Expert;
 use App\Models\User;
@@ -62,13 +64,15 @@ class UserController extends Controller
         return view('dashboard', compact('data'));
     }
 
-    function create(){
+    function create()
+    {
         try {
             $data = (object)[
                 'type' => 'add',
                 'name' => '',
                 'email' => '',
                 'role' => '',
+                'gender' => '',
                 'phone' => '',
             ];
             return view('users.form', compact('data'));
@@ -91,8 +95,9 @@ class UserController extends Controller
             $input['phone'] = $request->phone;
             $input['email'] = $request->email;
             $input['role'] = $request->role;
+            $input['gender'] = $request->gender;
             $input['password'] = $request->password;
-           
+
 
             User::create($input);
             return redirect('/users',)->with('success', 'Berhasil menambah expert');
@@ -109,7 +114,34 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $user;
+        try {
+            $quisionare = [];
+            if ($user->role == 'User') {
+                // return 'data';
+                $tmpQuisionare = AnsweredQuestion::join('categori_screening', 'categori_screening.id', 'answered_questions.category_id')
+                    ->where('answered_questions.user_id', $user->id)
+                    ->select('answered_questions.*', 'categori_screening.category_name')
+                    ->get();
+
+                foreach ($tmpQuisionare as $key => $val) {
+                    $answered = [];
+                    $tmpAnswered = AnsweredQuestionDetail::leftJoin('question', 'question.id', 'answered_detail.question_id')
+                        ->where('answered_detail.answered_id', $val->id)
+                        ->select('answered_detail.*', 'question.question')
+                        ->get();
+                    array_push($answered, $tmpAnswered[0]);
+                    $tmp['question'] = $val;
+                    $tmp['answered'] = $answered;
+                    array_push($quisionare, $tmp);
+                }
+            }
+            $data['detail'] = $user;
+            $data['screening'] = $quisionare;
+            // return $data;
+            return view('users.detail', compact('data'));
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -128,6 +160,7 @@ class UserController extends Controller
             'email' => $user->email,
             'phone' => $user->phone,
             'role' => $user->role,
+            'gender' => $user->gender,
         ];
         return view('users.form', compact('data', 'user'));
     }
@@ -152,6 +185,7 @@ class UserController extends Controller
             $input['phone'] = $request->phone;
             $input['role'] = $request->role;
             $input['email'] = $request->email;
+            $input['gender'] = $request->gender;
             if ($request->password) {
                 $input['password'] = $request->password;
             }

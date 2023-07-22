@@ -34,15 +34,20 @@ class MasterController extends Controller
         }
     }
 
-    public function listArtikel()
+    public function listArtikel(Request $reqest)
     {
+        // return $reqest;
         try {
-            $data = Artikel::all();
+            $data = Artikel::leftJoin('users', 'users.id', 'artikel.created_by')
+                ->select('artikel.*', 'users.name')
+                ->orderBy('id', 'DESC')
+                ->paginate(intval($reqest->perpage));
             return response()->json([
                 'code' => '200',
                 'data' => $data
             ], 200);
         } catch (\Throwable $th) {
+            return $th;
             return response()->json([
                 'code' => '401',
                 'message' => "Failed Show Data",
@@ -53,7 +58,9 @@ class MasterController extends Controller
     public function detailArtikel($id)
     {
         try {
-            $tmpData = Artikel::where('id', $id)->first();
+            $tmpData = Artikel::leftJoin('users', 'users.id', 'artikel.created_by')
+                ->select('artikel.*', 'users.name')
+                ->where('artikel.id', $id)->first();
             $komen = KomenArtikel::join('users', 'users.id', 'komen_artikel.users_id')
                 ->select('komen_artikel.*', 'users.name')
                 ->where('komen_artikel.artikel_id', $tmpData->id)

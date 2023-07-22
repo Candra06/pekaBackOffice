@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use App\Models\Artikel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ArtikelController extends Controller
@@ -62,6 +63,7 @@ class ArtikelController extends Controller
             $name = Str::random(8) . '.' . $fileType;
             $input['title'] = $request->title;
             $input['content'] = $request->content;
+            $input['created_by'] = Auth::user()->id;
             $input['total_like'] = 0;
             $input['total_komen'] = 0;
             $input['thumbnail'] = Storage::putFileAs('thumbnail', $request->file('thumbnail'), $name);

@@ -60,6 +60,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
+                'gender' => $request->gender,
                 'remember_token' => $request->fcm_token,
                 'password' => bcrypt($request->password),
                 'role' => 'User',
@@ -132,6 +133,7 @@ class UserController extends Controller
             $credential = $request->validate([
                 'name' => 'required',
                 'email' => 'required',
+                'gender' => 'required',
                 'phone' => 'required',
             ]);
             if ($request->password) {
