@@ -14,7 +14,7 @@ class AlterArtikelAddPubliserd extends Migration
     public function up()
     {
         Schema::table('artikel', function (Blueprint $table) {
-            $table->integer('created_by')->unsigned()->after('content');
+            $table->integer('created_by')->default(1)->unsigned()->after('content');
         });
     }
 
