@@ -90,18 +90,24 @@ class MasterController extends Controller
                 ->where('users_id', Auth()->user()->id)
                 ->first();
             $art = [];
-            $art = Artikel::where('id', $id)->first();
+            $art = Artikel::leftJoin('users', 'users.id', 'artikel.created_by')
+                ->select('artikel.*', 'users.name')
+                ->where('artikel.id', $id)->first();
             if (!$cek) {
                 $tmpLike = $art->total_like + 1;
                 UsersLike::create(['artikel_id' => $id, 'users_id' => Auth()->user()->id]);
                 Artikel::where('id', $id)->update(['total_like' => $tmpLike]);
-                $art =  Artikel::where('id', $id)->first();
+                $art =  Artikel::leftJoin('users', 'users.id', 'artikel.created_by')
+                    ->select('artikel.*', 'users.name')
+                    ->where('artikel.id', $id)->first();
                 $art['isLike'] = true;
             } else {
                 $tmpLike = $art->total_like - 1;
                 Artikel::where('id', $id)->update(['total_like' => $tmpLike]);
                 UsersLike::where('id', $cek->id)->delete();
-                $art =  Artikel::where('id', $id)->first();
+                $art =  Artikel::leftJoin('users', 'users.id', 'artikel.created_by')
+                    ->select('artikel.*', 'users.name')
+                    ->where('artikel.id', $id)->first();
                 $art['isLike'] = false;
             }
 
