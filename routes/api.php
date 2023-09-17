@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\KomenArtikelController;
 use App\Http\Controllers\API\MasterController;
 use App\Http\Controllers\API\NoteUserController;
 use App\Http\Controllers\API\QuisionareController;
@@ -37,5 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('listQuestion/{id}', [QuisionareController::class, 'listQuestion']);
     Route::get('listCategory', [QuisionareController::class, 'listCategory']);
     Route::post('submitScreening', [QuisionareController::class, 'saveScreening']);
+    Route::post('replyKomen', [KomenArtikelController::class, 'postReply']);
+
     // Route::resource('products', ProductController::class);
 });
