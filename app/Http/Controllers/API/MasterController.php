@@ -61,7 +61,8 @@ class MasterController extends Controller
             $tmpData = Artikel::leftJoin('users', 'users.id', 'artikel.created_by')
                 ->select('artikel.*', 'users.name')
                 ->where('artikel.id', $id)->first();
-            $komen = KomenArtikel::join('users', 'users.id', 'komen_artikel.users_id')
+            $komen = KomenArtikel::with('reply', 'reply.users')
+                ->join('users', 'users.id', 'komen_artikel.users_id')
                 ->select('komen_artikel.*', 'users.name')
                 ->where('komen_artikel.artikel_id', $tmpData->id)
                 ->get();
@@ -76,6 +77,7 @@ class MasterController extends Controller
                 'data' => $data
             ], 200);
         } catch (\Throwable $th) {
+            return $th;
             return response()->json([
                 'code' => '401',
                 'message' => "Failed Show Data",
@@ -135,8 +137,9 @@ class MasterController extends Controller
                 $art = Artikel::where('id', $request->artikel_id)->first();
                 $tmpKomen = $art->total_komen + 1;
                 Artikel::where('id', $request->artikel_id)->update(['total_komen' => $tmpKomen]);
-                $komen = KomenArtikel::join('users', 'users.id', 'komen_artikel.users_id')
-                    ->select('komen_artikel.*', 'users.name')
+                $komen = KomenArtikel::with('reply', 'reply.users')
+                    ->join('users', 'users.id', 'komen_artikel.users_id')
+                    ->select('komen_artikel.*', 'users.name', '')
                     ->where('komen_artikel.artikel_id', $art->id)
                     ->get();
                 $cek = UsersLike::where('artikel_id', $request->artikel_id)
