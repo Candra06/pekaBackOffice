@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoriScreening;
 use App\Models\ScreeningCondition;
+use App\Models\AnsweredQuestion;
+use App\Models\AnsweredQuestionDetail;
 use Illuminate\Http\Request;
+
+use App\Exports\QuitionerExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CategoriScreeningController extends Controller
 {
@@ -182,6 +187,14 @@ class CategoriScreeningController extends Controller
         try {
             ScreeningCondition::where('id', $id)->delete();
             return back()->with('success', 'Berhasil Menghapus pilihan');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    function export($id) {
+        try {
+            return Excel::download(new QuitionerExport($id), 'quitioner-export.xlsx');
         } catch (\Throwable $th) {
             throw $th;
         }

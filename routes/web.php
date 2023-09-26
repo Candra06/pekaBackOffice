@@ -30,6 +30,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::resource('expert', ExpertController::class);
     Route::resource('note', NoteUserController::class);
     Route::resource('kuesioner', QuestionController::class);
+    Route::get('category/export/{id}', [CategoriScreeningController::class, 'export']);
     Route::resource('category', CategoriScreeningController::class);
     Route::post('/updateChoice/{idQuestion}', [QuestionController::class, 'updateChoice']);
     Route::post('/addChoice/{idQuestion}', [QuestionController::class, 'addChoice']);
